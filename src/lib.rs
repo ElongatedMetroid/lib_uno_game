@@ -102,13 +102,13 @@ impl Card {
 }
 
 impl Player {
-    fn new() -> Player {
+    pub fn new() -> Player {
         Player { name: String::new(), turn: 0, cards: Vec::new() }
     }   
-    fn set_name(&mut self, name: &str) {
+    pub fn set_name(&mut self, name: &str) {
         self.name = name.into();
     }
-    fn set_turn(&mut self, turn: usize) {
+    pub fn set_turn(&mut self, turn: usize) {
         self.turn = turn;
     }
 }
