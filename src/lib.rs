@@ -10,7 +10,7 @@ pub struct Game {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct Player {
+pub struct Player {
     name: String,
     turn: usize,
     cards: Vec<Card>,
