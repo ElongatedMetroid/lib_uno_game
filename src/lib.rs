@@ -1,15 +1,21 @@
 use rand::{thread_rng, prelude::SliceRandom};
-use std::collections::VecDeque;
+use std::{collections::VecDeque, net::TcpStream, mem, io::{Write, BufReader, Read}};
 use serde_derive::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct Packet {
+    game: Game,
+    response: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Game {
     players: Vec<Player>,
     deck: VecDeque<Card>,
     current_card: Card,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Player {
     name: String,
     turn: usize,
@@ -110,5 +116,45 @@ impl Player {
     }
     pub fn set_turn(&mut self, turn: usize) {
         self.turn = turn;
+    }
+}
+
+impl Packet {
+    pub fn new(game: &Game) -> Packet {
+        Packet {
+            game: game.clone(),
+            response: None,
+        }
+    }
+
+    pub fn write(&mut self, stream: &mut TcpStream) -> Result<(), Box<dyn std::error::Error>> {
+        let data = bincode::serialize(self)?;
+
+        let content_length = mem::size_of_val(&data);
+
+        stream.write(
+            format!("{content_length}\n").as_bytes()
+        )?;
+
+        stream.write_all(&data)?;
+
+        Ok(())
+    }
+
+    pub fn read(stream: &mut TcpStream) -> Result<Packet, Box<dyn std::error::Error>> {
+        let packet_length = String::new();
+
+        let mut buf_reader = BufReader::new(stream);
+
+        let packet_length = packet_length.trim().parse()?;
+
+        let mut packet_bytes = Vec::new();
+        packet_bytes.resize(packet_length, 0);
+
+        buf_reader.read_exact(&mut packet_bytes)?;
+
+        let packet = bincode::deserialize::<Packet>(&packet_bytes)?;
+
+        Ok(packet)
     }
 }
