@@ -4,7 +4,8 @@ use serde_derive::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Packet {
-    game: Game,
+    game: Option<Game>,
+    from: Option<Player>,
     response: Option<String>,
 }
 
@@ -120,9 +121,10 @@ impl Player {
 }
 
 impl Packet {
-    pub fn new(game: &Game) -> Packet {
+    pub fn new(game: &Option<Game>, from: &Option<Player>) -> Packet {
         Packet {
             game: game.clone(),
+            from: from.clone(),
             response: None,
         }
     }
