@@ -1,5 +1,5 @@
 use rand::{thread_rng, prelude::SliceRandom};
-use std::{collections::VecDeque, net::TcpStream, mem, io::{Write, BufReader, Read}};
+use std::{collections::VecDeque, net::TcpStream, mem, io::{Write, BufReader, Read, BufRead}};
 use serde_derive::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -144,9 +144,10 @@ impl Packet {
     }
 
     pub fn read(stream: &mut TcpStream) -> Result<Packet, Box<dyn std::error::Error>> {
-        let packet_length = String::new();
-
+        let mut packet_length = String::new();
         let mut buf_reader = BufReader::new(stream);
+
+        buf_reader.read_line(&mut packet_length)?;
 
         let packet_length = packet_length.trim().parse()?;
 
