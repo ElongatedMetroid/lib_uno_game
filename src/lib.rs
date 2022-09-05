@@ -129,7 +129,7 @@ impl Packet {
         }
     }
 
-    pub fn write(&mut self, stream: &mut TcpStream) -> Result<(), Box<dyn std::error::Error>> {
+    pub fn write(&mut self, stream: &mut TcpStream) -> Result<usize, Box<dyn std::error::Error>> {
         let data = bincode::serialize(self)?;
 
         let content_length = mem::size_of_val(&data);
@@ -140,7 +140,7 @@ impl Packet {
 
         stream.write_all(&data)?;
 
-        Ok(())
+        Ok(content_length)
     }
 
     pub fn read(stream: &mut TcpStream) -> Result<Packet, Box<dyn std::error::Error>> {
