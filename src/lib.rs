@@ -167,6 +167,12 @@ impl Packet {
     pub fn mut_recieved_from(&mut self) -> &mut Option<Player> {
         &mut self.from
     }
+    pub fn game(&self) -> &Option<Game> {
+        &self.game
+    }
+    pub fn game_mut(&mut self) -> &mut Option<Game> {
+        &mut self.game
+    }
 
     pub fn write(&mut self, stream: &mut TcpStream) -> Result<usize, Box<dyn std::error::Error>> {
         let data = bincode::serialize(self)?;
