@@ -9,6 +9,18 @@ pub struct Packet {
     response: Option<String>,
 }
 
+struct Response {
+    text: Option<String>,
+    kind: ResponseKind,
+}
+
+enum ResponseKind {
+    Error,
+    Success,
+    NameTaken,
+    CardCannotBeUsed,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Game {
     players: Vec<Player>,
@@ -82,6 +94,9 @@ impl Game {
         deck.shuffle(&mut thread_rng());
 
         self.deck = deck.into();
+    }
+    pub fn add_player(&mut self, player: Player) {
+        self.players.push(player);
     }
 }
 
