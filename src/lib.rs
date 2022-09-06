@@ -6,20 +6,20 @@ use serde_derive::{Serialize, Deserialize};
 pub struct Packet {
     game: Option<Game>,
     from: Option<Player>,
-    response: Option<String>,
+    response: Response,
     card: Option<Card>,
 }
 
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 struct Response {
     text: Option<String>,
     kind: ResponseKind,
 }
 
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 enum ResponseKind {
     Error,
     Success,
-    NameTaken,
-    CardCannotBeUsed,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -169,7 +169,10 @@ impl Packet {
             game: game.clone(),
             from: from.clone(),
             card: None,
-            response: None,
+            response: Response {
+                kind: ResponseKind::Success,
+                text: None,
+            },
         }
     }
 
@@ -184,6 +187,14 @@ impl Packet {
     }
     pub fn game_mut(&mut self) -> &mut Option<Game> {
         &mut self.game
+    }
+
+    pub fn success(&self) -> (bool, &Option<String>) {
+        if self.response.kind == ResponseKind::Success {
+            (true, &None)
+        } else {
+            (false, &self.response.text)
+        }
     }
     /// Get the player with the matching turn number
     /// Returns an option containing a refrence to the player
