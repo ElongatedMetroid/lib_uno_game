@@ -204,7 +204,7 @@ impl Packet {
         let content_length = mem::size_of_val(&data[..]);
 
         stream.write(
-            format!("{content_length}\n").as_bytes()
+            format!("{content_length}\r\n").as_bytes()
         )?;
 
         stream.write_all(&data)?;
