@@ -7,6 +7,7 @@ pub struct Packet {
     game: Option<Game>,
     from: Option<Player>,
     response: Option<String>,
+    card: Option<Card>,
 }
 
 struct Response {
@@ -167,6 +168,7 @@ impl Packet {
         Packet {
             game: game.clone(),
             from: from.clone(),
+            card: None,
             response: None,
         }
     }
@@ -208,6 +210,9 @@ impl Packet {
             }
             return None;
         }
+    }
+    pub fn set_card(&mut self, card: &Card) {
+        self.card = Some(card.clone());
     }
 
     pub fn write(&mut self, stream: &mut TcpStream) -> Result<usize, Box<dyn std::error::Error>> {
