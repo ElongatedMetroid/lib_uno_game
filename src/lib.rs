@@ -157,6 +157,9 @@ impl Player {
     pub fn cards(&self) -> &Vec<Card> {
         &self.cards
     }
+    pub fn id(&self) -> &usize {
+        &self.turn
+    }
 }
 
 impl Packet {
