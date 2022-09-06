@@ -177,6 +177,20 @@ impl Packet {
     pub fn game_mut(&mut self) -> &mut Option<Game> {
         &mut self.game
     }
+    /// Get the player with the matching turn number
+    /// Returns an option containing a refrence to the player
+    pub fn get_player(&self, who: &Player) -> Option<&Player> {
+        if self.game().is_none() {
+            return None;
+        } else {
+            for player in &self.game().as_ref().unwrap().players {
+                if player.turn == who.turn {
+                    return Some(player);
+                }
+            }
+            return None;
+        }
+    }
 
     pub fn write(&mut self, stream: &mut TcpStream) -> Result<usize, Box<dyn std::error::Error>> {
         let data = bincode::serialize(self)?;
