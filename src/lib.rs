@@ -95,8 +95,8 @@ impl Game {
 
         self.deck = deck.into();
     }
-    pub fn add_player(&mut self, player: Player) {
-        self.players.push(player);
+    pub fn add_player(&mut self, player: &Player) {
+        self.players.push(player.clone());
     }
 }
 
