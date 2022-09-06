@@ -139,6 +139,9 @@ impl Player {
     pub fn set_turn(&mut self, turn: usize) {
         self.turn = turn;
     }
+    pub fn set_cards(&mut self, cards: Vec<Card>) {
+        self.cards = cards;
+    }
 }
 
 impl Packet {
