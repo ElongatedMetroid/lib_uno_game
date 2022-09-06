@@ -197,6 +197,18 @@ impl Packet {
             return None;
         }
     }
+    pub fn get_player_mut(&mut self, who: &Player) -> Option<&mut Player> {
+        if self.game().is_none() {
+            return None;
+        } else {
+            for player in &mut self.game_mut().as_mut().unwrap().players {
+                if player.turn == who.turn {
+                    return Some(player);
+                }
+            }
+            return None;
+        }
+    }
 
     pub fn write(&mut self, stream: &mut TcpStream) -> Result<usize, Box<dyn std::error::Error>> {
         let data = bincode::serialize(self)?;
