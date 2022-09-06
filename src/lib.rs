@@ -196,6 +196,11 @@ impl Packet {
             (false, &self.response.text)
         }
     }
+
+    pub fn set_error(&mut self, text: Option<String>) {
+        self.response.kind = ResponseKind::Error;
+        self.response.text = text;
+    }
     /// Get the player with the matching turn number
     /// Returns an option containing a refrence to the player
     pub fn get_player(&self, who: &Player) -> Option<&Player> {
