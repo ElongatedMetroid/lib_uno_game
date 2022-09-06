@@ -154,6 +154,9 @@ impl Player {
     pub fn set_cards(&mut self, cards: Vec<Card>) {
         self.cards = cards;
     }
+    pub fn cards(&self) -> &Vec<Card> {
+        &self.cards
+    }
 }
 
 impl Packet {
