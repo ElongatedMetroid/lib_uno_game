@@ -78,7 +78,7 @@ impl Game {
             current_card: Card { color: Color::Wild, kind: CardKind::Cancel }, 
         };
 
-        // 
+        // Set current card
         game.current_card = game.card_from_deck_top().unwrap();
 
         game
@@ -105,6 +105,10 @@ impl Game {
         }
 
         hand
+    }
+
+    pub fn current_card(&self) -> &Card {
+        &self.current_card
     }
 }
 
