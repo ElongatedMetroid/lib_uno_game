@@ -7,6 +7,7 @@ pub struct Packet {
     game: Option<Game>,
     from: Option<Player>,
     response: Option<String>,
+    card: Option<Card>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -43,7 +44,7 @@ enum CardKind {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct Card {
+pub struct Card {
     color: Color,
     kind: CardKind,
 }
@@ -121,12 +122,20 @@ impl Player {
 }
 
 impl Packet {
-    pub fn new(game: &Option<Game>, from: &Option<Player>) -> Packet {
+    pub fn new(game: &Option<Game>, from: &Option<Player>, card: &Option<Card>) -> Packet {
         Packet {
             game: game.clone(),
             from: from.clone(),
+            card: card.clone(),
             response: None,
         }
+    }
+
+    pub fn recieved_from(&self) -> &Option<Player> {
+        &self.from
+    }
+    pub fn card(&self) -> &Option<Card> {
+        &self.card
     }
 
     pub fn write(&mut self, stream: &mut TcpStream) -> Result<usize, Box<dyn std::error::Error>> {
