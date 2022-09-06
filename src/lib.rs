@@ -134,6 +134,9 @@ impl Packet {
     pub fn recieved_from(&self) -> &Option<Player> {
         &self.from
     }
+    pub fn mut_recieved_from(&mut self) -> &mut Option<Player> {
+        &mut self.from
+    }
     pub fn card(&self) -> &Option<Card> {
         &self.card
     }
