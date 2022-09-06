@@ -87,7 +87,6 @@ impl Game {
     fn card_from_deck_top(&mut self) -> Option<Card> {
         self.deck.pop_front()
     }
-
     fn reshuffle(&mut self) {
         let mut deck: Vec<Card> = self.deck.clone().into();
 
@@ -97,6 +96,15 @@ impl Game {
     }
     pub fn add_player(&mut self, player: &Player) {
         self.players.push(player.clone());
+    }
+    pub fn draw_hand(&mut self) -> Vec<Card> {
+        let mut hand = Vec::with_capacity(7);
+
+        for _ in 0..7 {
+            hand.push(self.card_from_deck_top().unwrap());
+        }
+
+        hand
     }
 }
 
