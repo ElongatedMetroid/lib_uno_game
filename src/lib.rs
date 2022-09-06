@@ -139,7 +139,7 @@ impl Packet {
     pub fn write(&mut self, stream: &mut TcpStream) -> Result<usize, Box<dyn std::error::Error>> {
         let data = bincode::serialize(self)?;
 
-        let content_length = mem::size_of_val(&data);
+        let content_length = mem::size_of_val(&data[..]);
 
         stream.write(
             format!("{content_length}\n").as_bytes()
