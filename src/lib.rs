@@ -36,7 +36,7 @@ pub struct Player {
     cards: Vec<Card>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Clone, Debug, Serialize, Deserialize)]
 enum CardKind {
     WildCard,
     DrawFour,
@@ -61,7 +61,7 @@ pub struct Card {
     kind: CardKind,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Clone, Debug, Serialize, Deserialize)]
 enum Color {
     Red,
     Blue,
@@ -110,6 +110,10 @@ impl Game {
 
     pub fn current_card(&self) -> &Card {
         &self.current_card
+    }
+
+    pub fn card_matches(&self, card: &Card) -> bool {
+        card.color == self.current_card.color || card.kind == self.current_card.kind
     }
 }
 
