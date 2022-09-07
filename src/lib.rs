@@ -192,6 +192,9 @@ impl Packet {
     pub fn game_mut(&mut self) -> &mut Option<Game> {
         &mut self.game
     }
+    pub fn card(&mut self) -> &Option<Card> {
+        &self.card
+    }
 
     pub fn success(&self) -> (bool, &Option<String>) {
         if self.response.kind == ResponseKind::Success {
