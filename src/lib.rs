@@ -192,7 +192,7 @@ impl Packet {
     pub fn game_mut(&mut self) -> &mut Option<Game> {
         &mut self.game
     }
-    pub fn card(&mut self) -> &Option<Card> {
+    pub fn card(&self) -> &Option<Card> {
         &self.card
     }
 
