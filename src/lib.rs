@@ -113,6 +113,10 @@ impl Game {
     }
 
     pub fn card_matches(&self, card: &Card) -> bool {
+        if card.color == Color::Wild {
+            return true;
+        }
+
         card.color == self.current_card.color || card.kind == self.current_card.kind
     }
 }
